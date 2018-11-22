@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Example: JQuery + knockout Refreshher</title>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+</head>
+
+<body>
+    <ul id="people"></ul>
+
+    <input type="text" id="firstName">
+    <input type="text" id="lastName">
+    <button id="addPerson">Insert</button>
+
+    <script>
+        var firstName = 'John';
+        var lastName = 'Doe';
+        var fullName = firstName = '' + lastName;
+
+        var person = {
+            firstName: 'Steve',
+            lastName: 'Sanders',
+            age: 29,
+            adress: {
+                street: '30 main st',
+                city: 'New York'
+            }
+        }
+
+        var people = [{
+            firstName: 'Dawn',
+            lastName: 'Smith'
+        }, {
+            firstName: 'Brian',
+            lastName: 'Donovan'
+        }, {
+            firstName: 'Carlos',
+            lastName: 'Diaz'
+        }];
+
+        // for (i = 0; i < people.length; i++) {
+        //     $('#people').append('<li>' + people[i].firstName + ' ' + people[i].lastName + '</li>');
+        // }
+
+        $.each(people, function (index, value) {
+            var fullName = people[index].firstName + ' ' + people[index].lastName;
+            $('#people').append('<li>' + fullName + '</li>');
+        });
+
+        $('#addPerson').click(function () {
+            var object = {
+                firstName: $('#firstName').val(),
+                lastName: $('#lastName').val()
+            };
+
+            people.push(object)
+        })
+    </script>
+
+</body>
+
+</html>

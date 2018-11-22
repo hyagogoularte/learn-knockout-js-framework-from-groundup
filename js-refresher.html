@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Example: JS Refreshher</title>
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+</head>
+
+<body>
+    <h1>
+        Welcome <span data-bind="text: firstName"></span> <span data-bind="text: lastName"></span>
+    </h1>
+
+    <div>
+        <span>First Name:</span>
+        <input type="text" id="firstName" data-bind="value: firstName">
+    </div>
+
+    <div>
+        <span>Last Name:</span>
+        <input type="text" id="lastName" data-bind="value: lastName">
+    </div>
+
+    <button>Change</button>
+    <script>
+        var myViewModel = {
+            firstName: ko.observable('John'),
+            lastName: ko.observable('Doe')
+        };
+
+        $('button').click(function () {
+            myViewModel.firstName('George');
+            myViewModel.lastName('Williams');
+        });
+
+        myViewModel.firstName.subscribe(function (newValue) {
+            alert('The users first name is now ' + newValue);
+            console.log('The user has been  updated')
+        });
+
+        myViewModel.firstName.subscribe(function (oldValue) {
+            alert('The users previous name was ' + oldValue);
+            console.log('The user has been updated')
+        }, null, 'beforeChange');
+
+        ko.applyBindings(myViewModel);
+    </script>
+
+</body>
+
+</html>

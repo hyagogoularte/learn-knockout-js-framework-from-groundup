@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Example: Click Binding</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+</head>
+
+<body>
+    <h4>Users</h4>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: users">
+            <tr>
+                <td data-bind="text: $index"></td>
+                <td data-bind="text: name"></td>
+                <td>
+                    <a href="#" class="btn btn-danger" data-bind="click: $parent.removeUser">Remove</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <input type="text" id="newUser">
+    <button class="btn btn-primary" data-bind="click: addUser">
+        <span>Add User</span>
+    </button>
+
+    <script>
+
+        function viewModel() {
+            var self = this;
+
+            self.users = ko.observableArray([{
+                name: 'Brad'
+            }, {
+                name: 'Jhon'
+            }, {
+                name: 'Mike'
+            }, {
+                name: 'Lance'
+            }]);
+
+            self.addUser = function () {
+                var userName = $('#newUser').val();
+                self.users.push({
+                    name: userName
+                })
+            }
+
+            self.removeUser = function () {
+                self.users.remove(this);
+            }
+        }
+
+        ko.applyBindings(new viewModel());
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Example: Style Binding</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+
+</head>
+
+<body>
+    <h2>Participants</h2>
+    <p>Here are the Participants:</p>
+    <h3>Single</h3>
+    <div data-bind="template: {name: 'person-template', data: buyer}"></div>
+    <div data-bind="template: {name: 'person-template', data: seller}"></div>
+
+    <script type="text/html" id="person-template">
+        <h3 data-bind="text: name"></h3>
+        <p>Credits: <span data-bind="text: credits"></span></p>
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <h3>Foreach</h3>
+    <div data-bind="template: {name: 'people', foreach: people}"></div>
+    <script type="text/html" id="people">
+
+        <h3 data-bind="text: name"></h3>
+        <p>Credits: <span data-bind="text: credits"></span></p>
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <h3>Using alias 'as'</h3>
+    <ul data-bind="template: { name: 'season-template', foreach: seasons, as: 'season' }"></ul>
+
+    <script type="text/html" id="season-template">
+        <li>
+            <strong data-bind="text: name"></strong>
+            <ul data-bind="template: { name: 'month-template', foreach: months, as: 'month' }"></ul>
+        </li>
+    </script>
+
+    <script type="text/html" id="month-template">
+        <li>
+            <span data-bind="text: month"></span>
+            is in
+            <span data-bind="text: season.name"></span>
+        </li>
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <h3>AfterRender, afterAdd and beforeRemove</h3>
+    <div data-bind="template: {name: 'person-template', data: seller, afterRender: myPostProcessingLogic}"></div>
+
+
+    <br>
+    <br>
+    <br>
+    <h3>Dyanamic Choosing</h3>
+    <ul data-bind="template: {name : 'li-template', foreach: employees}"></ul>
+
+    <script type="text/html" id="li-template">
+        <li>
+            <span data-bind="text: name"></span>
+            is 
+            <span data-bind="text: $parent.displayMode"></span>
+        </li>
+    </script>
+
+    <br>
+    <br>
+    <br>
+
+    <h3>JQuery.tmpl</h3>
+    <div data-bind="template: 'peopleList', data: people"></div>
+    <script type="text/html" id="peopleList">
+        {{each people}}
+            <p>
+                <b>${name}</b> is ${credits} years old
+            </p>
+        {{/each}}
+    </script>
+
+    <script type="text/javascript">
+        function MyViewModel() {
+            this.buyer = { name: 'Franklin', credits: 300 };
+            this.seller = { name: 'Joseph', credits: 2100 };
+
+            this.people = [{
+                name: 'Hyago',
+                credits: 1
+            }, {
+                name: 'Roberta',
+                credits: 2
+            }, {
+                name: 'Alessandra',
+                credits: 3
+            }, {
+                name: 'Josue',
+                credits: 4
+            }];
+
+            this.seasons = ko.observableArray([
+                { name: 'Spring', months: ['March', 'April', 'May'] },
+                { name: 'Summer', months: ['June', 'July', 'August'] },
+                { name: 'Autumn', months: ['September', 'October', 'November'] },
+                { name: 'Winter', months: ['December', 'January', 'February'] }
+            ]);
+
+            this.myPostProcessingLogic = function (elements) {
+                // "elements" is an array of DOM nodes just rendered by the template
+                // You can add custom post-processing logic here
+                console.log('myPostProcessingLogic', elements);
+            };
+
+            this.employees = ko.observableArray([
+                { name: 'Kari', active: ko.observable(true) },
+                { name: 'Brynn', active: ko.observable(false) },
+                { name: 'Nora', active: ko.observable(false) }
+            ]);
+
+            this.displayMode = function (employee) {
+                return employee.active() ? 'Active' : 'Inactive';
+            };
+        };
+
+        ko.applyBindings(new MyViewModel());
+    </script>
+</body>
+
+</html>

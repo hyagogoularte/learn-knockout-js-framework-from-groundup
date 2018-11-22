@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Example: Enable-Desable Binding</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+</head>
+
+<body>
+
+    <h1 data-bind="changeColor: color">
+        ChangeColor Example
+    </h1>
+
+    <select name="changeColor" id="changeColor" data-bind="value: color">
+        <option value="black">Black</option>
+        <option value="red">Red</option>
+        <option value="Blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="yellow">Yellow</option>
+    </select>
+
+    <h1 data-bind="textFadeIn: msg">
+        Text FadeIn Example
+    </h1>
+
+    <input type="text" data-bind="value: msg">
+
+    <br>
+
+    <h1>
+        SlideVisible Example
+    </h1>
+    <div data-bind="slideVisible: giftWrap, slideDuration: 600">
+        You have selected the option
+    </div>
+    <label for="giftWrap">
+        Gift Wrap <input type="checkbox" data-bind="checked: giftWrap">
+    </label>
+
+    <script>
+        ko.bindingHandlers.changeColor = {
+            update: function (element, valueAccessor) {
+                var element = $(element);
+                var value = valueAccessor();
+                console.log(ko.unwrap(value))
+                // ko.unwrap(value) (usado para extrair o valor de valueAccessor)
+                var valueUnwrapped = ko.unwrap(value);
+
+                element.css('color', valueUnwrapped);
+            }
+        }
+
+        ko.bindingHandlers.textFadeIn = {
+
+            update: function (element, valueAccessor) {
+                var $element = $(element);
+
+                $element.hide();
+                ko.bindingHandlers.text.update(element, valueAccessor);
+                $element.fadeIn();
+            }
+        }
+
+        ko.bindingHandlers.slideVisible = {
+            update: function (element, valueAccessor, allBindings) {
+                var $element = $(element);
+                var value = valueAccessor();
+                var valueUnwrapped = ko.unwrap(value);
+                var duration = allBindings.get('slideDuration') || 400;
+
+                if (valueUnwrapped) {
+                    $element.slideDown(duration);
+                } else {
+                    $element.slideUp(duration);
+                }
+            }
+        }
+
+        var viewModel = {
+            color: ko.observable(),
+            msg: ko.observable('Text FadeIn Example'),
+
+            giftWrap: ko.observable(true)
+        }
+
+        ko.applyBindings(viewModel);
+    </script>
+</body>
+
+</html>

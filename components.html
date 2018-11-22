@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Example: Style Binding</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+
+</head>
+
+<body>
+
+    <!-- https://stackoverflow.com/questions/40720782/pass-variable-when-binding-template -->
+    <!-- <message params="class: 'danger'"></message>
+    <br>
+
+    <ul data-bind="template: {name: 'message-list-template', foreach: messageTypes}"></ul>
+
+
+    <span data-bind="value: messageTypeChecked">oi</span>
+    <script type="text/html" id="message-list-template">
+        <li>
+            <label for="">
+                <input type="radio" name="messagesTypes" data-bind="value: value, checked: $root.messageTypeChecked">
+                <span data-bind="text: description"></span>
+            </label>
+        </li>
+    </script> -->
+
+    <newsletter-widget></newsletter-widget>
+    <script type="text/javascript">
+        ko.components.register('newsleter-widget', {
+            viewModel: function () {
+                this.email = ko.observable();
+                this.showMessage = ko.observable(false);
+
+                this.onSubmitForm = function () {
+                    this.showMessage(true);
+                }
+            },
+            template:
+                '<h3>Subscribe to our newsletter</h3>' +
+                '<form data-bind="submit: onSubmitForm">' +
+                '<input data-bind="value: email">' +
+                '<button type="submit">Submit</button>' +
+                '</form>' +
+                '<p data-bind="visible: showMessage">' +
+                'Thanks for subscribing:' +
+                '<br>' +
+                '<strong>' +
+                '<span data-bind="text: email"></span>' +
+                '</strong>' +
+                '<p>'
+
+        })
+
+        ko.applyBindings();
+
+        // function ViewModel() {
+        //     this.messageTypeChecked = ko.observable();
+        //     this.messageTypes = ko.observableArray([{
+        //         value: 'primary',
+        //         description: 'Primário'
+        //     }, {
+        //         value: 'secondary',
+        //         description: 'Secundário'
+        //     }, {
+        //         value: 'success',
+        //         description: 'Sucesso'
+        //     }, {
+        //         value: 'danger',
+        //         description: 'Perigo'
+        //     }, {
+        //         value: 'warning',
+        //         description: 'Alerta'
+        //     }, {
+        //         value: 'info',
+        //         description: 'Informação'
+        //     }, {
+        //         value: 'light',
+        //         description: 'Leve'
+        //     }, {
+        //         value: 'dark',
+        //         description: 'Escuro'
+        //     }]);
+
+        //     this.messageTypes.subscribe(function (newValue) {
+        //         console.log(newValue)
+        //     }, null, 'arrayChange');
+        // }
+
+        // ko.components.register('message', {
+        //     viewModel: function (params) {
+        //         console.log(params);
+
+        //         this.clazz = 'alert-' + params.class;
+        //     },
+        //     template:
+        //         '<div class="alert" data-bind="attr: {class: clazz}">Mensagem do tipo <span data-bind="text: clazz"></span></div>'
+        // })
+
+        // ko.applyBindings(new ViewModel());
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Example: Foreach Binding</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+        crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js" integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+        crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.2/knockout-min.js"></script>
+
+</head>
+
+<body>
+
+    <h1>employees</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+            </tr>
+        </thead>
+        <tbody data-bind="foreach: employees">
+            <tr>
+                <td>
+                    <span data-bind="text: id"></span>
+                </td>
+                <td>
+                    <span data-bind="text: name"></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h1>Customers</h1>
+    <ul data-bind="foreach: customers">
+        <li>
+            <span data-bind="text: $data"></span>
+        </li>
+    </ul>
+    <script>
+        var employees = ko.observableArray([
+            { id: 'e100', name: 'Tom Richards' },
+            { id: 'e101', name: 'Janice Johnson' },
+            { id: 'e102', name: 'Paul Roberts' },
+        ]);
+
+
+        var customers = ko.observableArray([
+            'John Doe', 'Tom Smith', 'Eric Williams'
+        ])
+
+        ko.applyBindings()
+    </script>
+</body>
+
+</html>
